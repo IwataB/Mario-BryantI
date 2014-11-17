@@ -1,15 +1,21 @@
 // TODO
 game.PlayerEntity = me.Entity.extend({
     init: function (x, y, settings){
-        this._super(me.Entity)
-        settings.image = "Mario";
-        settings.spritewidth = "128";
-        settings.spriteheight = "128";
-        settings.width = 128;
-        settings.height = 128;
-        this._super(me.Entity, "init", [x, y, settings]);
+        this._super(me.Entity, 'init', [x, y,{
+            
         
-        this.body.setVelocity(5, 0);
+        image: "Mario",
+        spritewidth: "128",
+        spriteheight: "128",
+        width: 128,
+        height: 128,
+        
+        getShape: function(){
+            return (new me.Rect(0, 0, 128, 128)).toPolygon();
+        }
+        }]);
+        
+        this.body.setVelocity(5, 20);
     },
     update: function (delta){
         if(me.input.isKeyPressed("right")){
