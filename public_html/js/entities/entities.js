@@ -20,6 +20,7 @@ game.PlayerEntity = me.Entity.extend({
         
         this.body.setVelocity(5, 20);
     },
+    
     update: function (delta){
         if(me.input.isKeyPressed("right")){
             this.body.vel.x += this.body.accel.x * me.timer.tick;
@@ -27,14 +28,14 @@ game.PlayerEntity = me.Entity.extend({
         }
         else{
             this.body.vel.x = 0;
-            
-        if(this.body.vel.x !==0){
-            if(!this.renderable.isCurrentAnimation("smallWalk")){
-            this.renderable.setCurrentAnimation("smallWalk");
-        }    
-            
         }
+        if(this.body.vel.x !==0){
+            this.renderable.setCurrentAnimation("smallWalk");
+        }else{    
+            this.renderable.setCurrentAnimation("idle");
+            }
         this.body.update(delta);
+        this._super(me.Entity, "update", [delta]);
         return true;
-    }
-    }});
+        }
+    });
