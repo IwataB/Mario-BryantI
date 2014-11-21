@@ -14,23 +14,29 @@ game.PlayerEntity = me.Entity.extend({
         }]);
         
         this.renderable.addAnimation("idle", [3]);
-        this.renderable.addAnimation("smallWalk", [9, 10, 11, 12, 13, 14], 80);
+        this.renderable.addAnimation("smallWalk", [8, 9, 10, 11, 12, 13], 80);
         
         this.renderable.setCurrentAnimation("idle");
         
         this.body.setVelocity(5, 20);
     },
     
+    this.body.update(delta);
+    me.collision.check(this, true, this.collideHandler.bind(this))
+    
     update: function (delta){
+        console.log("update");
         if(me.input.isKeyPressed("right")){
+            console.log("right");
             this.body.vel.x += this.body.accel.x * me.timer.tick;
-            this.renderable.setCurrentAnimation("smallWalk");
         }
         else{
             this.body.vel.x = 0;
         }
         if(this.body.vel.x !==0){
+            if(!this.renderable.isCurrentAnimation("smallWalk")){
             this.renderable.setCurrentAnimation("smallWalk");
+        }
         }else{    
             this.renderable.setCurrentAnimation("idle");
             }
@@ -38,4 +44,16 @@ game.PlayerEntity = me.Entity.extend({
         this._super(me.Entity, "update", [delta]);
         return true;
         }
+    });
+    
+    game.levelTrigger = me.Entity.extend({
+        init: function (x, y, settings){
+            this._super(me.Entity, 'init', [x, y, settings]);
+            this.body.onCollision = this.onCollision.bind(this);
+            this.level = settings.level;
+        },
+         onColllision: function(){ 
+             this.body.setCollisionMask(me.collision.types.NO_OBJECT);
+             me.levelDirector(this.level);
+        },
     });
