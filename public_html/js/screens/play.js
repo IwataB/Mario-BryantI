@@ -6,10 +6,12 @@ game.PlayScreen = me.ScreenObject.extend({
 		// reset the score
 		game.data.score = 0;
 
-                me.levelDirector.loadLevel("BryantI-Level01");
+                me.levelDirector.loadLevel("BryantI-level01");
 
                 var player = me.pool.pull("Mario", 0, 420, {});
                 me.game.world.addChild(player, 3);
+                
+                this.resetPlayer(0, 400);
                 
                 me.input.bindKey(me.input.KEY.RIGHT, "right");
 
@@ -28,7 +30,7 @@ game.PlayScreen = me.ScreenObject.extend({
 	},
         
         resetPlayer: function(x, y){
-            var player = me.pool.pull(mario, x, y, {});
-            me.game.world.addChild(Player, 5);
+            var player = me.pool.pull("Mario", x, y, {});
+            me.game.world.addChild(player, 3);
         }
 });
