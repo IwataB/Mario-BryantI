@@ -9,7 +9,7 @@ game.PlayerEntity = me.Entity.extend({
         width: 128,
         height: 128,
         getShape: function(){
-            return (new me.Rect(0, 0, 128, 128)).toPolygon();
+            return (new me.Rect(0, 0, 32, 128)).toPolygon();
         }
         }]);
         //adds animations
@@ -29,12 +29,12 @@ game.PlayerEntity = me.Entity.extend({
         if(me.input.isKeyPressed("right")){
             console.log("right");
             this.body.vel.x += this.body.accel.x * me.timer.tick;
-        }
-        else{
+        
+        }else{
             this.body.vel.x = 0;
         }
         this.body.update(delta);
-        me.collision.check(this, true, this.collideHandler.bind(this), true)
+        me.collision.check(this, true, this.collideHandler.bind(this), true);
         
         if(this.body.vel.x !==0){
             if(!this.renderable.isCurrentAnimation("smallWalk")){
@@ -53,10 +53,10 @@ game.PlayerEntity = me.Entity.extend({
         }
     });
     //checks collision with "levelTrigger"
-    game.levelTrigger = me.Entity.extend({
+    game.LevelTrigger = me.Entity.extend({
         init: function (x, y, settings){
             this._super(me.Entity, 'init', [x, y, settings]);
-            this.body.onCollision = this.onCollision.bind(this);
+//            this.body.onCollision = this.onCollision.bind(this);
             this.level = settings.level;
             this.xSpawn = settings.xSpawn;
             this.ySpawn = settings.ySpawn;
