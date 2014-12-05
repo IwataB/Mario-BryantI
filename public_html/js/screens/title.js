@@ -3,7 +3,7 @@ game.TitleScreen = me.ScreenObject.extend({
 	 *  action to perform on state change
 	 */
 	onResetEvent: function() {	
-		me.game.world.addChild( new me.Sprite (0, 0, me.loader.getImage('title-screen')), 3);
+		me.game.world.addChild( new me.Sprite (0, 0, me.loader.getImage('title-screen')), -10);
                 me.input.bindKey(me.input.KEY.ENTER, "start");
                 
                 me.game.world.addChild(new (me.Renderable.extend ({
@@ -12,7 +12,8 @@ game.TitleScreen = me.ScreenObject.extend({
                         this.font = new me.Font("Arial", 46, "White");
                     },
                     draw: function(renderer){
-                        this.font.draw(renderer.getContext(), "Merioish", 540, 130)
+                        this.font.draw(renderer.getContext(), "Merio", 450, 130);
+                        this.font.draw(renderer.getContext(), "Press Enter to play", 250, 530);      
                     }
                 })));
                 
@@ -28,6 +29,7 @@ game.TitleScreen = me.ScreenObject.extend({
 	 *  action to perform when leaving this screen (state change)
 	 */
 	onDestroyEvent: function() {
-		me.input.unbindKey(me.input.KYE.ENTER);
+		me.input.unbindKey(me.input.KEY.ENTER);
+                me.event.unsubscribe(this.handler);
 	}
 });
