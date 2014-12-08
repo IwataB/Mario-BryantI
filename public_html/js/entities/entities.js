@@ -23,13 +23,14 @@ game.PlayerEntity = me.Entity.extend({
     },
     //update function
     update: function(delta){
-    me.collision.check(this, true, this.collideHandler.bind(this), true);
-    
-  
-        console.log("update");
+
         if(me.input.isKeyPressed("right")){
-            console.log("right");
+            this.flipX(false);
             this.body.vel.x += this.body.accel.x * me.timer.tick;
+            
+        } else if (me.input.isKeyPressed("left")) {
+        this.flipX(true);
+        this.body.vel.x -= this.body.accel.x / me.timer.tick;
         
         }else{
             this.body.vel.x = 0;
@@ -71,18 +72,17 @@ game.PlayerEntity = me.Entity.extend({
     });
     
     game.BadGuy = me.Entity.extend({
-        init: function(x, y, settings){
-            this._super(me.Entity, 'init', [x, y,{
-            
-            image: "slime",
-            spritewidth: "60",
-            spriteheight: "28",
-            width: 60,
-            height: 28,
-            getShape: function(){
-                return (new me.Rect(0, 0, 00, 28)).toPolygon();
-        },
-        update: function(delta){
-            
+        init: function(x, y, settings) {
+            this._super(me.Entity, 'init', [x, y, {
+                    image: "slime",
+                    spritewidth: "60",
+                    spritehieght: "28",
+                    width: 60,
+                    hieght: 28,
+                    getShape: function() {
+                        return (new me.Rect(0, 0, 60, 28)).toPolygon();
+                    }
+            }]);
         }
     });
+  
