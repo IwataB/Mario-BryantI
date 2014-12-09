@@ -98,9 +98,8 @@ game.PlayerEntity = me.Entity.extend({
             this.alive = true;
             this.type = "badguy"
             
-            //this.renderable.addAnimation("run", [0, 1, 2], 80);
-            //this.renderable.setCurrent("run");
             
+            //sets "badguy"s velocity
             this.body.setVelocity(4, 6);
             
         },
@@ -111,7 +110,7 @@ game.PlayerEntity = me.Entity.extend({
             
             this._super(me.Entity, "update", [delta]);
         },
-        
+        //handles collision with "badguy"
         collideHandler:function(){
             
             if(this.alive){
@@ -119,6 +118,7 @@ game.PlayerEntity = me.Entity.extend({
                     this.walkLeft = false;
                 }
             }
+            //removes "badguy" when it dies
             else{
                 me.game.world.removeChild(this);
             }
