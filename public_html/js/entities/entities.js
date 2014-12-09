@@ -83,6 +83,48 @@ game.PlayerEntity = me.Entity.extend({
                         return (new me.Rect(0, 0, 60, 28)).toPolygon();
                     }
             }]);
+        //handles "badguy" spawning
+            this.spritewidth = 60;
+            var width = settings.width
+            x = this.pos.x;
+            this.startX = x;
+            this.endX = x + width - this.spritewidth;
+            this.pos.x = x + width - this.spritewidth;
+            this.updateBounds();
+            //handles "badguy" updating
+            this.alwaysUpdate = true;
+            //sets the "badguy"s typing, declares it is alive, and prevents from walking left
+            this.walkLeft = false;
+            this.alive = true;
+            this.type = "badguy"
+            
+            //this.renderable.addAnimation("run", [0, 1, 2], 80);
+            //this.renderable.setCurrent("run");
+            
+            this.body.setVelocity(4, 6);
+            
+        },
+        
+        update:function(delta){
+            this.body.update(delta);
+            this.collision.check(this, true, this.collideHandler.bind(this), true)
+            
+            this._super(me.Entity, "update", [delta]);
+        },
+        
+        collideHandler:function(){
+            
+            if(this.alive){
+                if(this.walkLeft && this.pos.x <= this.startX){
+                    this.walkLeft = false;
+                }
+            }
+            else{
+                me.game.world.removeChild(this);
+            }
+            
+            
         }
+        
     });
   
