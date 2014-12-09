@@ -23,11 +23,11 @@ game.PlayerEntity = me.Entity.extend({
     },
     //update function
     update: function(delta){
-
+        //check for "right" key pushed down
         if(me.input.isKeyPressed("right")){
             this.flipX(false);
             this.body.vel.x += this.body.accel.x * me.timer.tick;
-            
+        //check for "left" key pushed down
         } else if (me.input.isKeyPressed("left")) {
         this.flipX(true);
         this.body.vel.x -= this.body.accel.x / me.timer.tick;
@@ -37,15 +37,16 @@ game.PlayerEntity = me.Entity.extend({
         }
         this.body.update(delta);
         me.collision.check(this, true, this.collideHandler.bind(this), true);
-        
+        //set animation "smallWalk" when not still
         if(this.body.vel.x !==0){
             if(!this.renderable.isCurrentAnimation("smallWalk")){
             this.renderable.setCurrentAnimation("smallWalk");
         }
+        //set animation "idle"
         }else{    
             this.renderable.setCurrentAnimation("idle");
             }
-       
+        ///update
         this._super(me.Entity, "update", [delta]);
         return true;
         },
@@ -67,7 +68,6 @@ game.PlayerEntity = me.Entity.extend({
              this.body.setCollisionMask(me.collision.types.NO_OBJECT);
              me.levelDirector.loadLevel(this.level);
              me.state.current().resetPlayer(this.xSpawn, this.ySpawn);
-            // me.state.current().resetPlayer(this.xSpawn, this.ySpawn);
         }
     });
     
