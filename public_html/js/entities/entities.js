@@ -23,36 +23,38 @@ game.PlayerEntity = me.Entity.extend({
     },
     //update function
     update: function(delta){
-        //check for "right" key pushed down
-        if(me.input.isKeyPressed("right")){
-            this.flipX(false);
-            this.body.vel.x += this.body.accel.x * me.timer.tick;
-        //check for "left" key pushed down
-        } else if (me.input.isKeyPressed("left")) {
-        this.flipX(true);
-        this.body.vel.x -= this.body.accel.x / me.timer.tick;
-        
-        }else{
-            this.body.vel.x = 0;
-        }
-        this.body.update(delta);
-        me.collision.check(this, true, this.collideHandler.bind(this), true);
-        //set animation "smallWalk" when not still
-        if(this.body.vel.x !==0){
-            if(!this.renderable.isCurrentAnimation("smallWalk")){
-            this.renderable.setCurrentAnimation("smallWalk");
-        }
-        //set animation "idle"
-        }else{    
-            this.renderable.setCurrentAnimation("idle");
-            }
-        ///update
-        this._super(me.Entity, "update", [delta]);
-        return true;
-        },
-        
-        collideHandler: function(response){
-            
+        if (me.input.isKeyPressed('left')) {
+      // flip the sprite on horizontal axis
+      this.flipX(true);
+      // update the entity velocity
+      this.body.vel.x -= this.body.accel.x * me.timer.tick;
+      // change to the walking animation
+      if (!this.renderable.isCurrentAnimation("smallWalk")) {
+        this.renderable.setCurrentAnimation("smallWalk");
+      }
+    } else if (me.input.isKeyPressed('right')) {
+      // unflip the sprite
+      this.flipX(false);
+      // update the entity velocity
+      this.body.vel.x += this.body.accel.x * me.timer.tick;
+      // change to the walking animation
+      if (!this.renderable.isCurrentAnimation("smallWalk")) {
+        this.renderable.setCurrentAnimation("smallWalk");
+      }
+    } else {
+      this.body.vel.x = 0;
+      // change to the standing animation
+      this.renderable.setCurrentAnimation("idle");
+    }
+   
+    if (me.input.isKeyPressed('jump')) {
+      // make sure we are not already jumping or falling
+      if (!this.body.jumping && !this.body.falling) {
+        // set current vel to the maximum defined value
+        // gravity will then do the rest
+        this.body.vel.y = -this.body.maxVel.y * me.timer.tick;
+        // set the jumping flag
+        this.body.jumping = true;
         }
     });
     //checks collision with "levelTrigger"
@@ -126,5 +128,4 @@ game.PlayerEntity = me.Entity.extend({
             
         }
         
-    });
-  
+    }); 
